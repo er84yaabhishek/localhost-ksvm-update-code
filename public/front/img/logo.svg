@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="83" viewBox="0 0 200 83" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Kailas Saraswati Inter College logo">
+  <defs>
+    <style>
+      .stroke { stroke: #06BBCC; stroke-width: 2; fill: none; stroke-linejoin: round; stroke-linecap: round; }
+      .fill { fill: #06BBCC; }
+      .name { font-family: "Montserrat", "Segoe UI", Arial, sans-serif; font-weight: 700; font-size: 12.5px; letter-spacing: 0.6px; fill: #06BBCC; }
+      .motto { font-family: "Montserrat", "Segoe UI", Arial, sans-serif; font-weight: 600; font-size: 8px; fill: #06BBCC; }
+    </style>
+  </defs>
+
+  <!-- Left emblem: simplified shield with lotus + veena symbol -->
+  <g transform="translate(6,6)">
+    <!-- shield outline -->
+    <path class="stroke" d="M0 0 H48 V38 C48 47 36 54 24 58 C12 54 0 47 0 38 Z"/>
+    <!-- lotus (simplified) -->
+    <g transform="translate(6,10)">
+      <path class="stroke" d="M12 12 C8 6, 4 6, 0 12 C6 8, 12 8, 12 12 Z" />
+      <path class="stroke" d="M12 12 C16 6, 20 6, 24 12 C18 8, 12 8, 12 12 Z" />
+      <path class="stroke" d="M6 12 C12 2, 18 2, 24 12" />
+    </g>
+    <!-- simple veena: rounded body + neck -->
+    <g transform="translate(8,6)">
+      <ellipse class="stroke" cx="18" cy="18" rx="9" ry="6" />
+      <path class="stroke" d="M19 12 L34 6" />
+      <path class="stroke" d="M34 6 L38 4" />
+      <!-- small peacock-feather curl -->
+      <path class="stroke" d="M38 4 C42 2, 46 6, 42 10 C38 14, 34 12, 38 4 Z" />
+    </g>
+    <!-- small lamp/flame to indicate knowledge -->
+    <g transform="translate(4,2)">
+      <path class="stroke" d="M6 4 C8 3, 9 6, 6 9 C3 6, 4 3, 6 4 Z" />
+      <rect x="4" y="10" width="4" height="3" class="stroke" rx="0.8" ry="0.8"/>
+    </g>
+  </g>
+
+  <!-- Right text block -->
+  <g transform="translate(64, 12)">
+    <text class="name" x="0" y="10">KAILAS</text>
+    <text class="name" x="0" y="26">SARASWATI</text>
+    <text class="name" x="0" y="42">INTER COLLEGE</text>
+    <text class="motto" x="0" y="58">KNOWLEDGE IS POWER</text>
+  </g>
+</svg>

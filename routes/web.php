@@ -1,0 +1,118 @@
+<?php
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\forntend\HomeController;
+use App\Http\Controllers\Admin\PolicyController;
+use App\Http\Controllers\BannerController;
+use Illuminate\Support\Facades\Route;
+
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/contact', [HomeController::class, 'contactpage'])->name('home.contact');
+Route::post('/contact-store', [HomeController::class, 'contactstorepage'])->name('home.contact.store');
+Route::get('/aboutus', [HomeController::class, 'aboutuspage'])->name('home.aboutus');
+Route::get('/courses', [HomeController::class, 'coursespage'])->name('home.courses');
+Route::get('/exam', [HomeController::class, 'exampage'])->name('home.exam'); 
+Route::get('/admissions', [HomeController::class, 'admissionspage'])->name('home.admissions');
+Route::post('/admission-store', [HomeController::class, 'admissionstorepage'])->name('home.admission.store');
+Route::get('/admission-details/{slug}', [HomeController::class, 'admissiondetailspage'])->name('home.admission.details');
+Route::get('/exam-details/{slug}', [HomeController::class, 'examdetailspage'])->name('home.exam.details');
+Route::get('/gallery', [HomeController::class, 'gallerypage'])->name('home.gallery');
+Route::get('/events', [HomeController::class, 'eventspage'])->name('home.events');
+Route::get('/events-detalies/{slug}', [HomeController::class, 'eventdetaliespage'])->name('home.events.detalies');
+Route::get('/registration', [HomeController::class, 'registrationpage'])->name('home.registration');
+Route::post('/registration-store', [HomeController::class, 'registrationstorepage'])->name('home.registration.store');
+// Fornt Policy Route
+Route::prefix('detalies')->group(function () {
+    //Route::get('/', [HomeController::class, 'index'])->name('policy');
+    Route::get('/{slug}', [HomeController::class, 'showPolicy'])->name('policy.show-slug');
+});
+
+// Check mail Working or not 
+Route::get('/mail', [HomeController::class, 'sendEmail'])->name('home.mail');
+
+// Authenticated User Routes
+Route::middleware(['auth', 'is_user'])->group(function () {
+   
+
+});
+// Profile Routes
+Route::middleware('auth')->group(function () {
+
+});
+// Admin Routes
+Route::prefix('admin')->middleware(['auth', 'verified', 'is_admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboardpage'])->name('admin.dashboard');
+    Route::get('/edit', [AdminController::class, 'editpage']);
+    Route::get('/changepassword', [AdminController::class, 'changepasspage']);
+
+    // Site Setting Routes
+    // Gallery Routes
+    Route::get('/gallery', [AdminController::class, 'gallerypage'])->name('admin.gallery');
+    Route::get('/gallery-add', [AdminController::class, 'galleryaddpage'])->name('admin.gallery.add');
+    Route::post('/gallerty-store', [AdminController::class, 'gallerystorepage'])->name('admin.gallery.store');
+    Route::get('/gallery-edit/{id}', [AdminController::class, 'galleryeditpage'])->name('admin.gallery.edit');
+    Route::post('/gallery-update/{id}',[AdminController::class, 'galleryupdatepage'])->name('admin.gallery.update');
+    Route::post('/gallery-delete', [AdminController::class, 'gallerydeletepage'])->name('admin.gallery.delete');
+    // Event Routes
+    Route::get('/event', [AdminController::class, 'eventpage'])->name('admin.event');
+    Route::get('/event-add', [AdminController::class, 'eventaddpage'])->name('admin.event.add');
+    Route::post('/event-store', [AdminController::class, 'eventstorepage'])->name('admin.event.store');
+    Route::get('/event-edit/{id}', [AdminController::class, 'eventeditpage'])->name('admin.event.edit');
+    Route::post('/event-update/{id}',[AdminController::class, 'eventupdatepage'])->name('admin.event.update');
+    Route::post('/event-delete', [AdminController::class, 'eventdeletepage'])->name('admin.event.delete');
+    // Admission Routes
+    Route::get('/admission', [AdminController::class, 'admissionpage'])->name('admin.admission');
+    Route::get('/admission-add', [AdminController::class, 'admissionaddpage'])->name('admin.admission.add');
+    Route::post('/admission-store', [AdminController::class, 'admissionstorepage'])->name('admin.admission.store');
+    Route::get('/admission-edit/{id}', [AdminController::class, 'admissioneditpage'])->name('admin.admission.edit');
+    Route::post('/admission-update/{id}',[AdminController::class, 'admissionupdatepage'])->name('admin.admission.update');
+    Route::post('/admission-delete', [AdminController::class, 'admissiondeletepage'])->name('admin.admission.delete');
+
+    //Admission Contact View
+
+    Route::get('/admission-contact', [AdminController::class, 'admissioncontactpage'])->name('admin.admission.contact');
+    Route::get('/contact-us-admin', [AdminController::class, 'contactpage'])->name('admin.contact');
+
+    // Registration Routes
+    Route::get('/registrations', [AdminController::class, 'registrationpage'])->name('admin.registrations');
+    Route::post('/registration-delete', [AdminController::class, 'registrationdeletepage'])->name('admin.registration.delete');
+
+   // Exam Routes
+    Route::get('/exam', [AdminController::class, 'exampage'])->name('admin.exam');
+    Route::get('/exam-add', [AdminController::class, 'examaddpage'])->name('admin.exam.add');
+    Route::post('/exam-store', [AdminController::class, 'examstorepage'])->name('admin.exam.store');
+    Route::get('/exam-edit/{id}', [AdminController::class, 'exameditpage'])->name('admin.exam.edit');
+    Route::post('/exam-update/{id}',[AdminController::class, 'examupdatepage'])->name('admin.exam.update');
+    Route::post('/exam-delete', [AdminController::class, 'examdeletepage'])->name('admin.exam.delete');
+    // Course Routes
+    Route::get('/courses', [AdminController::class, 'coursespage'])->name('admin.courses');
+    Route::get('/courses-add', [AdminController::class, 'coursesaddpage'])->name('admin.courses.add');
+    Route::post('/courses-store', [AdminController::class, 'coursesstorepage'])->name('admin.courses.store');
+    // Course Routes
+    Route::get('/updates-news', [AdminController::class, 'updatesnewspage'])->name('admin.updates.news');
+    // page Privacy Routes
+    // Policy Route
+    Route::prefix('policy')->group(function () {
+        Route::get('/', [PolicyController::class, 'index'])->name('admin.policy');
+        Route::post('/store', [PolicyController::class, 'storePolicy'])->name('policy.store');
+        Route::post('/deletePolicy', [PolicyController::class, 'deletePolicy'])->name('policy.delete');
+        Route::post('/updatePolicy/{id}', [PolicyController::class, 'updatePolicy'])->name('policy.update');
+        Route::get('/{id}', [PolicyController::class, 'editPolicy'])->name('policy.show');
+    });
+
+    // Banner Routes
+    Route::prefix('banners')->group(function () {
+        Route::get('/', [BannerController::class, 'index'])->name('admin.banners.index');
+        Route::get('/data', [BannerController::class, 'getData'])->name('admin.banners.data');
+        Route::post('/', [BannerController::class, 'store'])->name('admin.banners.store');
+        Route::get('/{banner}', [BannerController::class, 'show'])->name('admin.banners.show');
+        Route::match(['post', 'put', 'patch'], '/{banner}', [BannerController::class, 'update'])->name('admin.banners.update');
+        Route::delete('/{banner}', [BannerController::class, 'destroy'])->name('admin.banners.destroy');
+        Route::put('/{banner}/status', [BannerController::class, 'updateStatus'])->name('admin.banners.status');
+    });
+    
+});
+// Authentication Routes
+require __DIR__ . '/auth.php';
