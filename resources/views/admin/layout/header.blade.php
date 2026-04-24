@@ -208,6 +208,41 @@
                                 <p>Dashboard</p>
                             </a>
                         </li>
+
+                        {{-- Home Page Management --}}
+                        <li class="nav-item {{ Route::is('admin.homepage.*') ? 'active' : '' }}">
+                            <a data-toggle="collapse" href="#homepageManage"
+                                aria-expanded="{{ Route::is('admin.homepage.*') ? 'true' : 'false' }}">
+                                <i class="fas fa-home"></i>
+                                <p>Home Page</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse {{ Route::is('admin.homepage.*') ? 'show' : '' }}" id="homepageManage">
+                                <ul class="nav nav-collapse">
+                                    <li class="{{ Route::is('admin.homepage.hero') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.homepage.hero') }}">
+                                            <span class="sub-item">Hero Section</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ Route::is('admin.homepage.why') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.homepage.why') }}">
+                                            <span class="sub-item">Why Choose Us</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ Route::is('admin.homepage.provide') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.homepage.provide') }}">
+                                            <span class="sub-item">What We Provide</span>
+                                        </a>
+                                    </li>
+                                    <li class="{{ Route::is('admin.homepage.strength') ? 'active' : '' }}">
+                                        <a href="{{ route('admin.homepage.strength') }}">
+                                            <span class="sub-item">Our Strength</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
                         <li
                             class="nav-item {{ Route::is('admin.event') || Route::is('admin.exam') || Route::is('admin.gallery') || Route::is('admin.admission') || Route::is('admin.updates.news') || Route::is('admin.policy') ? 'active' : '' }}">
                             <a data-toggle="collapse" href="#orderManagement"

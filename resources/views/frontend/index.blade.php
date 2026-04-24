@@ -1,4 +1,4 @@
-@extends('frontend.layout.app')
+﻿@extends('frontend.layout.app')
 @section('content')
 
 	<div class="main-banner banner_up">
@@ -172,325 +172,119 @@
 	<!--  Main Banner End Here-->
 
 	<main class="container my-5">
-		<section class="hero p-5 mb-4">
-			<div class="row align-items-center">
-				<div class="col-lg-12">
-					<h1 class="display-6 fw-bold" style="color:#7a1a58;">Welcome to K.S.V.M. Education Centre</h1>
-					<p class="tagline mb-3">
-						We at <strong>K.S.V.M.</strong> provide a happy, caring and safe environment for your child with a
-						priority
-						given to develop high standards of education.
-					</p>
+<section class="hero p-5 mb-4">
+<div class="row align-items-center">
+<div class="col-lg-12">
+<h1 class="display-6 fw-bold" style="color:#7a1a58;">
+{{ $heroSettings['hero_title'] ?? 'Welcome to K.S.V.M. Education Centre' }}
+</h1>
+<p class="tagline mb-3">
+{!! nl2br(e($heroSettings['hero_tagline'] ?? 'We at K.S.V.M. provide a happy, caring and safe environment for your child with a priority given to develop high standards of education.')) !!}
+</p>
+<p>
+{!! nl2br(e($heroSettings['hero_description'] ?? 'Our work is supported by a good level of resources and additional staffing to meet the individual needs of the children.')) !!}
+</p>
+<div class="mt-4">
+@if(!empty($heroSettings['hero_btn1_text']))
+<a href="{{ $heroSettings['hero_btn1_url'] ?? '#' }}" class="btn btn-primary me-2">{{ $heroSettings['hero_btn1_text'] }}</a>
+@else
+<a href="{{ route('home.aboutus') }}" class="btn btn-primary me-2">Learn More</a>
+@endif
+@if(!empty($heroSettings['hero_btn2_text']))
+<a href="{{ $heroSettings['hero_btn2_url'] ?? '#' }}" class="btn btn-outline-secondary">{{ $heroSettings['hero_btn2_text'] }}</a>
+@else
+<a href="{{ route('home.contact') }}" class="btn btn-outline-secondary">Contact Us</a>
+@endif
+</div>
+</div>
+</div>
+</section>
 
-					<p>
-						Our work is supported by a good level of resources and additional staffing to meet the individual
-						needs
-						of the children. We work hard to ensure that each child has acquired the study skills necessary for
-						them
-						to continue their development at the next stage of education.
-					</p>
+<!-- WHY CHOOSE US SECTION -->
+<section class="py-5" style="background:#f2eff2;">
+<div class="container">
+<h2 class="text-center fw-bold mb-4 heading">Why Choose Us?</h2>
+<div class="row g-4">
+@forelse($whyChooseUs as $item)
+<div class="col-md-3">
+<div class="choose-box p-4 bg-white rounded shadow-sm text-center">
+<h5 class="fw-bold mb-2 box-title">{{ $item->title }}</h5>
+<p class="small text-muted">{{ $item->description }}</p>
+</div>
+</div>
+@empty
+<div class="col-md-3"><div class="choose-box p-4 bg-white rounded shadow-sm text-center"><h5 class="fw-bold mb-2 box-title">Safe Environment</h5><p class="small text-muted">We ensure a secure, caring and happy atmosphere for all children.</p></div></div>
+<div class="col-md-3"><div class="choose-box p-4 bg-white rounded shadow-sm text-center"><h5 class="fw-bold mb-2 box-title">Individual Attention</h5><p class="small text-muted">Special care & support for each child's unique learning needs.</p></div></div>
+<div class="col-md-3"><div class="choose-box p-4 bg-white rounded shadow-sm text-center"><h5 class="fw-bold mb-2 box-title">Experienced Staff</h5><p class="small text-muted">Highly trained teachers providing quality education.</p></div></div>
+<div class="col-md-3"><div class="choose-box p-4 bg-white rounded shadow-sm text-center"><h5 class="fw-bold mb-2 box-title">Modern Facilities</h5><p class="small text-muted">Well-equipped classrooms and learning resources.</p></div></div>
+@endforelse
+</div>
+</div>
+</section>
 
-					<div class="mt-4">
-						<a href="{{ route('home.aboutus') }}" class="btn btn-primary me-2">Learn More</a>
-						<a href="{{ route('home.contact') }}" class="btn btn-outline-secondary">Contact Us</a>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- WHY CHOOSE US SECTION -->
-		<section class="py-5" style="background:#f2eff2;">
-			<div class="container">
-				<h2 class="text-center fw-bold mb-4 heading">Why Choose Us?</h2>
+<style>
+.choose-box { transition: 0.3s ease-in-out; border: 2px solid transparent; }
+.choose-box:hover { transform: translateY(-8px); border-color: #7a1a58; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+</style>
 
-				<div class="row g-4">
+<!-- WHAT WE PROVIDE SECTION -->
+<div class="section">
+<div class="container">
+<h2 class="text-center fw-bold mb-4 heading">What We Provide</h2>
+<div class="row g-4">
+@forelse($whatWeProvide as $item)
+<div class="col-md-4">
+<div class="info-card p-4 text-center bg-white rounded shadow-sm">
+<div class="fw-bold box-title">{{ $item->title }}</div>
+<p class="small text-muted mt-2">{{ $item->description }}</p>
+</div>
+</div>
+@empty
+<div class="col-md-4"><div class="info-card p-4 text-center bg-white rounded shadow-sm"><div class="fw-bold box-title">Our Mission</div><p class="small text-muted mt-2">To nurture confident, independent learners ready for the next stage of education.</p></div></div>
+<div class="col-md-4"><div class="info-card p-4 text-center bg-white rounded shadow-sm"><div class="fw-bold box-title">Facilities</div><p class="small text-muted mt-2">Well-equipped classrooms, trained staff, and additional support resources.</p></div></div>
+<div class="col-md-4"><div class="info-card p-4 text-center bg-white rounded shadow-sm"><div class="fw-bold box-title">Admissions</div><p class="small text-muted mt-2">Admissions are open - Contact us to schedule a visit or get more details.</p></div></div>
+@endforelse
+</div>
+</div>
+</div>
 
-					<!-- Box 1 -->
-					<div class="col-md-3">
-						<div class="choose-box p-4 bg-white rounded shadow-sm text-center">
-							<h5 class="fw-bold mb-2 box-title">Safe Environment</h5>
-							<p class="small text-muted">We ensure a secure, caring and happy atmosphere for all children.
-							</p>
-						</div>
-					</div>
+<!-- OUR STRENGTH SECTION -->
+<div class="section">
+<div class="heading">OUR STRENGTH</div>
+<hr class="heading-hr">
+<div class="row g-4">
+@forelse($ourStrengths as $item)
+<div class="col-md-6 col-lg-4">
+<div class="box text-center">
+<div class="box-title">{{ $item->title }}</div>
+<div class="box-text">{{ $item->description }}</div>
+</div>
+</div>
+@empty
+<div class="col-md-6 col-lg-4"><div class="box text-center"><div class="box-title">Our Excellence</div><div class="box-text">We guide each child to unlock his/her true potential and inspire them to reach greater heights of glory.</div></div></div>
+<div class="col-md-6 col-lg-4"><div class="box text-center"><div class="box-title">Holistic Development</div><div class="box-text">An efficient and effective education system is incorporated for the complete development of the child.</div></div></div>
+<div class="col-md-6 col-lg-4"><div class="box text-center"><div class="box-title">Personal Attention</div><div class="box-text">Each student's progress is monitored and guided to build confidence and skills for life challenges.</div></div></div>
+<div class="col-md-6 col-lg-4"><div class="box text-center"><div class="box-title">Best-In-Class Infrastructure</div><div class="box-text">State-of-the-art facilities ensure smooth and effective learning for all students.</div></div></div>
+<div class="col-md-6 col-lg-4"><div class="box text-center"><div class="box-title">Safe Campus</div><div class="box-text">CCTV-monitored, eco-friendly campus ensuring complete safety and comfort for students.</div></div></div>
+<div class="col-md-6 col-lg-4"><div class="box text-center"><div class="box-title">Supportive Environment</div><div class="box-text">A positive and encouraging atmosphere helps children grow emotionally and academically.</div></div></div>
+@endforelse
+</div>
+</div>
 
-					<!-- Box 2 -->
-					<div class="col-md-3">
-						<div class="choose-box p-4 bg-white rounded shadow-sm text-center">
-							<h5 class="fw-bold mb-2 box-title">Individual Attention</h5>
-							<p class="small text-muted">Special care & support for each child's unique learning needs.</p>
-						</div>
-					</div>
+<style>
+.section { margin: 40px auto; background: #f2eff2; padding: 30px; border-radius: 10px; box-shadow: 0 4px 25px rgba(0,0,0,0.1); }
+.heading { text-align: center; font-size: 30px; font-weight: bold; color: #7a1a58; margin-bottom: 15px; }
+.heading-hr { width: 80px; height: 3px; background: #7a1a58; border: none; margin: 0 auto 30px auto; border-radius: 2px; }
+.box { background: #fff; border: 2px solid #d4bdd0; border-radius: 10px; padding: 18px 20px; height: 100%; transition: 0.3s; }
+.box:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(0,0,0,0.12); }
+.box-title { font-weight: bold; color: #7a1a58; margin-bottom: 8px; font-size: 17px; }
+.box-text { font-size: 14px; color: #333; }
+.info-card { position: relative; border: 1px solid #eee; padding-top: 50px; padding-bottom: 30px; transition: 0.3s ease; border-radius: 15px; }
+.info-card:hover { transform: translateY(-8px); border-color: #7a1a58; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+</style>
 
-					<!-- Box 3 -->
-					<div class="col-md-3">
-						<div class="choose-box p-4 bg-white rounded shadow-sm text-center">
-							<h5 class="fw-bold mb-2 box-title">Experienced Staff</h5>
-							<p class="small text-muted">Highly trained teachers providing quality education.</p>
-						</div>
-					</div>
-
-					<!-- Box 4 -->
-					<div class="col-md-3">
-						<div class="choose-box p-4 bg-white rounded shadow-sm text-center">
-							<h5 class="fw-bold mb-2 box-title">Modern Facilities</h5>
-							<p class="small text-muted">Well-equipped classrooms and learning resources.</p>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</section>
-
-		<!-- HOVER EFFECT CSS -->
-		<style>
-			.choose-box {
-				transition: 0.3s ease-in-out;
-				border: 2px solid transparent;
-			}
-
-			.choose-box:hover {
-				transform: translateY(-8px);
-				border-color: #7a1a58;
-				box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-			}
-		</style>
-		<!-- INFO CARDS SECTION -->
-		<div class="section">
-			<div class="container">
-				<h2 class="text-center fw-bold mb-4 heading">What We Provide</h2>
-
-				<div class="row g-4">
-
-					<!-- Card 1 -->
-					<div class="col-md-4">
-						<div class="info-card p-4 text-center bg-white rounded shadow-sm">
-
-							<div class="fw-bold box-title">Our Mission</div>
-							<p class="small text-muted mt-2">
-								To nurture confident, independent learners ready for the next stage of education.
-							</p>
-						</div>
-					</div>
-
-					<!-- Card 2 -->
-					<div class="col-md-4">
-						<div class="info-card p-4 text-center bg-white rounded shadow-sm">
-
-							<div class="fw-bold box-title">Facilities</div>
-							<p class="small text-muted mt-2">
-								Well-equipped classrooms, trained staff, and additional support resources.
-							</p>
-						</div>
-					</div>
-
-					<!-- Card 3 -->
-					<div class="col-md-4">
-						<div class="info-card p-4 text-center bg-white rounded shadow-sm">
-
-							<div class="fw-bold box-title">Admissions</div>
-							<p class="small text-muted mt-2">
-								Admissions are open — Contact us to schedule a visit or get more details.
-							</p>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-		<div class="section">
-			<div class="heading">OUR STRENGTH</div>
-			<hr class="heading-hr">
-
-			<div class="row g-4">
-
-				<div class="col-md-6 col-lg-4">
-					<div class="box text-center">
-						{{-- <div class="box-icon">🏆</div> --}}
-						<div class="box-title">Our Excellence</div>
-						<div class="box-text">We guide each child to unlock his/her true potential and inspire them to reach
-							greater heights of glory.</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4">
-					<div class="box text-center">
-						{{-- <div class="box-icon">🌱</div> --}}
-						<div class="box-title">Holistic Development</div>
-						<div class="box-text">An efficient and effective education system is incorporated for the complete
-							development of the child.</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4">
-					<div class="box text-center">
-						{{-- <div class="box-icon">👤</div> --}}
-						<div class="box-title">Personal Attention</div>
-						<div class="box-text">Each student’s progress is monitored and guided to build confidence and skills
-							for life challenges.</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4">
-					<div class="box text-center">
-						{{-- <div class="box-icon">🏫</div> --}}
-						<div class="box-title">Best – In – Class Infrastructure</div>
-						<div class="box-text">State‑of‑the‑art facilities ensure smooth and effective learning for all
-							students.</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4">
-					<div class="box text-center">
-						{{-- <div class="box-icon">🛡️</div> --}}
-						<div class="box-title">Safe Campus</div>
-						<div class="box-text">CCTV‑monitored, eco‑friendly campus ensuring complete safety and comfort for
-							students.</div>
-					</div>
-				</div>
-
-				<div class="col-md-6 col-lg-4">
-					<div class="box text-center">
-						{{-- <div class="box-icon">🤝</div> --}}
-						<div class="box-title">Supportive Environment</div>
-						<div class="box-text">A positive and encouraging atmosphere helps children grow emotionally and
-							academically.</div>
-					</div>
-				</div>
-
-			</div>
-		</div>
-
-		<style>
-			.section {
-				/* max-width: 1000px; */
-				margin: 40px auto;
-				background: #f2eff2;
-				padding: 30px;
-				border-radius: 10px;
-				box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
-			}
-
-			.heading {
-				text-align: center;
-				font-size: 30px;
-				font-weight: bold;
-				color: #7a1a58;
-				margin-bottom: 15px;
-			}
-
-			/* Styled HR */
-			.heading-hr {
-				width: 80px;
-				height: 3px;
-				background: #7a1a58;
-				border: none;
-				margin: 0 auto 30px auto;
-				border-radius: 2px;
-			}
-
-			.box {
-				background: #fff;
-				border: 2px solid #d4bdd0;
-				border-radius: 10px;
-				padding: 18px 20px;
-				height: 100%;
-				transition: 0.3s;
-			}
-
-			.box:hover {
-				transform: translateY(-4px);
-				box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
-			}
-
-			.box-icon {
-				width: 60px;
-				height: 60px;
-				background: #7a1a58;
-				color: #fff;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 26px;
-				margin-bottom: 12px;
-			}
-
-			.box-title {
-				font-weight: bold;
-				color: #7a1a58;
-				margin-bottom: 8px;
-				font-size: 17px;
-			}
-
-			.box-text {
-				font-size: 14px;
-				color: #333;
-			}
-
-			/* ICON PROPER CENTER */
-			.icon-box {
-				width: 75px;
-				height: 75px;
-				background: #e8f0ff;
-				border-radius: 50%;
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 32px;
-				color: #7a1a58;
-
-				position: absolute;
-				top: -35px;
-				left: 50%;
-				transform: translateX(-50%);
-				/* 👈 PERFECT CENTER */
-
-				transition: 0.3s ease-in-out;
-				box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-			}
-
-			/* CARD CONTAINER MUST BE RELATIVE */
-			.info-card {
-				position: relative;
-				/* 👈 Important */
-				border: 1px solid #eee;
-				padding-top: 50px;
-				padding-bottom: 30px;
-				transition: 0.3s ease;
-				border-radius: 15px;
-			}
-
-			/* HOVER EFFECTS */
-			.info-card:hover {
-				transform: translateY(-8px);
-				border-color: #7a1a58;
-				box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-			}
-
-			.info-card:hover .icon-box {
-				background: #7a1a58;
-				color: white;
-				transform: translateX(-50%) scale(1.1);
-			}
-
-
-			/* HEADING STYLE */
-			.info-card h5 {
-				margin-top: 15px;
-				font-weight: 700;
-				color: #1f1f1f;
-			}
-
-			.info-card p {
-				margin-top: 10px;
-				padding: 0 10px;
-			}
-		</style>
-
-	</main>
-
-	<!-- our_team -->
+</main>
+<!-- our_team -->
 	<section id="team_about" class="ptb-40 pb-0 ptb-xs-40   mb-sm-30 mb-xs-30">
 		<div class="container">
 

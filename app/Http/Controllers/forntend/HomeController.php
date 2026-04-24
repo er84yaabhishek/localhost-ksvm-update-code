@@ -13,6 +13,10 @@ use App\Models\Contact;
 use App\Models\AdmissionContact;
 use App\Models\Registration;
 use App\Models\Banner;
+use App\Models\HomePageSetting;
+use App\Models\WhyChooseUs;
+use App\Models\WhatWeProvide;
+use App\Models\OurStrength;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use App\Mail\ContactMail;
@@ -25,12 +29,22 @@ class HomeController extends Controller
 
     public function index()
     {
-        $exam = Exam::where('status', 'active')->get();
-        $admissions = Admission::where('status', 'active')->get();
-        $notices = Policy::where('status', 'notice')->get();
-        $banners = Banner::active()->ordered()->get();
-        $gallery = Gallery::all();
-        return view('frontend.index', compact('exam', 'admissions', 'notices', 'banners', 'gallery'));
+        $exam        = Exam::where('status', 'active')->get();
+        $admissions  = Admission::where('status', 'active')->get();
+        $notices     = Policy::where('status', 'notice')->get();
+        $banners     = Banner::active()->ordered()->get();
+        $gallery     = Gallery::all();
+
+        // Dynamic home page sections
+        $heroSettings   = HomePageSetting::getAllSettings();
+        $whyChooseUs    = WhyChooseUs::active()->ordered()->get();
+        $whatWeProvide  = WhatWeProvide::active()->ordered()->get();
+        $ourStrengths   = OurStrength::active()->ordered()->get();
+
+        return view('frontend.index', compact(
+            'exam', 'admissions', 'notices', 'banners', 'gallery',
+            'heroSettings', 'whyChooseUs', 'whatWeProvide', 'ourStrengths'
+        ));
     }
     public function contactpage()
     {

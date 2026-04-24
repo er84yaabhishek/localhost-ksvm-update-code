@@ -2,6 +2,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\forntend\HomeController;
 use App\Http\Controllers\Admin\PolicyController;
+use App\Http\Controllers\Admin\HomePageController;
 use App\Http\Controllers\BannerController;
 use Illuminate\Support\Facades\Route;
 
@@ -100,6 +101,34 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'is_admin'])->group(func
         Route::post('/deletePolicy', [PolicyController::class, 'deletePolicy'])->name('policy.delete');
         Route::post('/updatePolicy/{id}', [PolicyController::class, 'updatePolicy'])->name('policy.update');
         Route::get('/{id}', [PolicyController::class, 'editPolicy'])->name('policy.show');
+    });
+
+    // ---- Home Page Management Routes ----
+    Route::prefix('homepage')->group(function () {
+        // Hero Section
+        Route::get('/hero', [HomePageController::class, 'heroIndex'])->name('admin.homepage.hero');
+        Route::post('/hero', [HomePageController::class, 'heroUpdate'])->name('admin.homepage.hero.update');
+
+        // Why Choose Us
+        Route::get('/why-choose-us', [HomePageController::class, 'whyChooseIndex'])->name('admin.homepage.why');
+        Route::post('/why-choose-us', [HomePageController::class, 'whyChooseStore'])->name('admin.homepage.why.store');
+        Route::get('/why-choose-us/{id}', [HomePageController::class, 'whyChooseShow'])->name('admin.homepage.why.show');
+        Route::post('/why-choose-us/{id}', [HomePageController::class, 'whyChooseUpdate'])->name('admin.homepage.why.update');
+        Route::delete('/why-choose-us/{id}', [HomePageController::class, 'whyChooseDestroy'])->name('admin.homepage.why.destroy');
+
+        // What We Provide
+        Route::get('/what-we-provide', [HomePageController::class, 'whatWeProvideIndex'])->name('admin.homepage.provide');
+        Route::post('/what-we-provide', [HomePageController::class, 'whatWeProvideStore'])->name('admin.homepage.provide.store');
+        Route::get('/what-we-provide/{id}', [HomePageController::class, 'whatWeProvideShow'])->name('admin.homepage.provide.show');
+        Route::post('/what-we-provide/{id}', [HomePageController::class, 'whatWeProvideUpdate'])->name('admin.homepage.provide.update');
+        Route::delete('/what-we-provide/{id}', [HomePageController::class, 'whatWeProvideDestroy'])->name('admin.homepage.provide.destroy');
+
+        // Our Strength
+        Route::get('/our-strength', [HomePageController::class, 'strengthIndex'])->name('admin.homepage.strength');
+        Route::post('/our-strength', [HomePageController::class, 'strengthStore'])->name('admin.homepage.strength.store');
+        Route::get('/our-strength/{id}', [HomePageController::class, 'strengthShow'])->name('admin.homepage.strength.show');
+        Route::post('/our-strength/{id}', [HomePageController::class, 'strengthUpdate'])->name('admin.homepage.strength.update');
+        Route::delete('/our-strength/{id}', [HomePageController::class, 'strengthDestroy'])->name('admin.homepage.strength.destroy');
     });
 
     // Banner Routes

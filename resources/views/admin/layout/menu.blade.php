@@ -1,4 +1,4 @@
-<!-- Navbar Header -->
+﻿<!-- Navbar Header -->
 <nav class="navbar navbar-header navbar-expand-lg" data-background-color="dark">
     <div class="container-fluid">
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
@@ -99,6 +99,37 @@
                         <i class="la flaticon-paint-palette"></i>
                         <p>Dashboard</p>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#homepageManage">
+                        <i class="fas fa-home"></i>
+                        <p>Home Page</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="homepageManage">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="{{ route('admin.homepage.hero') }}">
+                                    <span class="sub-item">Hero Section</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.homepage.why') }}">
+                                    <span class="sub-item">Why Choose Us</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.homepage.provide') }}">
+                                    <span class="sub-item">What We Provide</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.homepage.strength') }}">
+                                    <span class="sub-item">Our Strength</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#pos">
