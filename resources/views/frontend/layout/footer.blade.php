@@ -178,7 +178,7 @@
                 {{ $siteSettings['footer_copyright'] ?? 'All rights reserved.' }}
             </p>
             <p>
-                <a href="{{ route('login') }}" style="color:#888; font-size:12px;">Admin Login</a>
+                <a href="{{ route('admin.dashboard') }}" style="color:#888; font-size:12px;">Admin Login</a>
             </p>
         </div>
     </div>

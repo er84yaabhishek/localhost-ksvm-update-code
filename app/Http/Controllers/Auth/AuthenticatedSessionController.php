@@ -24,14 +24,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-
         $request->authenticate();
 
         $request->session()->regenerate();
 
         return response()->json([
             'success' => true,
-            'url' => url('/dashboard'),
+            'url'     => route('admin.dashboard'),
             'message' => 'Login Successfully'
         ]);
     }

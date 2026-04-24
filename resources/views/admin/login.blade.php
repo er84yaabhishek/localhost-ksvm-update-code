@@ -321,7 +321,7 @@
                 if (data.success) {
                     btn.html('<i class="fas fa-check me-2"></i> Login Successful!').css('background', 'linear-gradient(135deg, #16a34a, #15803d)');
                     setTimeout(function() {
-                        window.location.href = '{{ route("admin.dashboard") }}';
+                        window.location.href = data.url || '{{ route("admin.dashboard") }}';
                     }, 800);
                 } else {
                     var msg = data.message || 'Invalid credentials. Please try again.';

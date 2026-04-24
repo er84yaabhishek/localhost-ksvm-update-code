@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
 
 });
 // Admin Routes
-Route::prefix('admin')->middleware(['auth', 'verified', 'is_admin'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboardpage'])->name('admin.dashboard');
     Route::get('/edit', [AdminController::class, 'editpage']);
     Route::get('/changepassword', [AdminController::class, 'changepasspage']);
