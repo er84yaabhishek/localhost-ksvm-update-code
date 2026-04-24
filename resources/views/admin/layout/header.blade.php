@@ -209,6 +209,57 @@
                             </a>
                         </li>
 
+                        {{-- About Us Management --}}
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#aboutUsMenu">
+                                <i class="fas fa-school"></i>
+                                <p>About Us</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="aboutUsMenu">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('admin.about.settings') }}">
+                                            <span class="sub-item"><i class="fas fa-cog"></i> Main Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('admin.about.values') }}">
+                                            <span class="sub-item"><i class="fas fa-star"></i> Core Values</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        {{-- Courses Management --}}
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#coursesMenu">
+                                <i class="fas fa-graduation-cap"></i>
+                                <p>Courses</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="coursesMenu">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href="{{ route('admin.courses.settings') }}">
+                                            <span class="sub-item"><i class="fas fa-cog"></i> Page Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('admin.courses.classes') }}">
+                                            <span class="sub-item"><i class="fas fa-book"></i> Class Groups</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('admin.courses.discipline') }}">
+                                            <span class="sub-item"><i class="fas fa-shield-alt"></i> Discipline Rules</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
                         {{-- Home Page Management --}}
                         <li class="nav-item {{ Route::is('admin.homepage.*') ? 'active' : '' }}">
                             <a data-toggle="collapse" href="#homepageManage"

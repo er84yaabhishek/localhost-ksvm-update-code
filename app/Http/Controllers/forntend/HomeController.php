@@ -52,11 +52,19 @@ class HomeController extends Controller
     }
     public function aboutuspage()
     {
-        return view('frontend.aboutus');
+        $aboutSettings = array_merge(
+            \App\Models\AboutUsSetting::defaults(),
+            \App\Models\AboutUsSetting::getAllSettings()
+        );
+        $coreValues = \App\Models\CoreValue::active()->ordered()->get();
+        return view('frontend.aboutus', compact('aboutSettings', 'coreValues'));
     }
     public function coursespage()
     {
-        return view('frontend.course');
+        $courseSettings  = array_merge(\App\Models\CourseSetting::defaults(), \App\Models\CourseSetting::getAllSettings());
+        $courseClasses   = \App\Models\CourseClass::with('subjects')->active()->ordered()->get();
+        $disciplineRules = \App\Models\DisciplineRule::active()->ordered()->get();
+        return view('frontend.course', compact('courseSettings', 'courseClasses', 'disciplineRules'));
     }
 
     public function exampage()

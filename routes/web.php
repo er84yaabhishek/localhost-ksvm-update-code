@@ -3,6 +3,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\forntend\HomeController;
 use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\HomePageController;
+use App\Http\Controllers\Admin\AboutUsController;
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\BannerController;
 use Illuminate\Support\Facades\Route;
@@ -130,6 +132,39 @@ Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
         Route::get('/our-strength/{id}', [HomePageController::class, 'strengthShow'])->name('admin.homepage.strength.show');
         Route::post('/our-strength/{id}', [HomePageController::class, 'strengthUpdate'])->name('admin.homepage.strength.update');
         Route::delete('/our-strength/{id}', [HomePageController::class, 'strengthDestroy'])->name('admin.homepage.strength.destroy');
+    });
+
+    // ---- Courses Routes ----
+    Route::prefix('courses-manage')->group(function () {
+        // Page Settings
+        Route::get('/settings', [CourseController::class, 'settingsIndex'])->name('admin.courses.settings');
+        Route::post('/settings', [CourseController::class, 'settingsUpdate'])->name('admin.courses.settings.update');
+
+        // Classes CRUD
+        Route::get('/classes', [CourseController::class, 'classesIndex'])->name('admin.courses.classes');
+        Route::post('/classes', [CourseController::class, 'classStore'])->name('admin.courses.classes.store');
+        Route::get('/classes/{id}', [CourseController::class, 'classShow'])->name('admin.courses.classes.show');
+        Route::post('/classes/{id}', [CourseController::class, 'classUpdate'])->name('admin.courses.classes.update');
+        Route::delete('/classes/{id}', [CourseController::class, 'classDestroy'])->name('admin.courses.classes.destroy');
+
+        // Discipline Rules CRUD
+        Route::get('/discipline', [CourseController::class, 'rulesIndex'])->name('admin.courses.discipline');
+        Route::post('/discipline', [CourseController::class, 'ruleStore'])->name('admin.courses.discipline.store');
+        Route::get('/discipline/{id}', [CourseController::class, 'ruleShow'])->name('admin.courses.discipline.show');
+        Route::post('/discipline/{id}', [CourseController::class, 'ruleUpdate'])->name('admin.courses.discipline.update');
+        Route::delete('/discipline/{id}', [CourseController::class, 'ruleDestroy'])->name('admin.courses.discipline.destroy');
+    });
+
+    // ---- About Us Routes ----
+    Route::prefix('about-us')->group(function () {
+        Route::get('/settings', [AboutUsController::class, 'index'])->name('admin.about.settings');
+        Route::post('/settings', [AboutUsController::class, 'updateSettings'])->name('admin.about.settings.update');
+
+        Route::get('/core-values', [AboutUsController::class, 'valuesIndex'])->name('admin.about.values');
+        Route::post('/core-values', [AboutUsController::class, 'valuesStore'])->name('admin.about.values.store');
+        Route::get('/core-values/{id}', [AboutUsController::class, 'valuesShow'])->name('admin.about.values.show');
+        Route::post('/core-values/{id}', [AboutUsController::class, 'valuesUpdate'])->name('admin.about.values.update');
+        Route::delete('/core-values/{id}', [AboutUsController::class, 'valuesDestroy'])->name('admin.about.values.destroy');
     });
 
     // ---- Site Settings Routes ----
