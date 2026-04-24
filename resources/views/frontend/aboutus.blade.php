@@ -49,10 +49,10 @@
                         Now the school has a three-storeyed building, with magnificent infrastructure and the best
                         teachers to enhance the abilities of the students.
                     </p>
-<!-- 
+
                     <h5 class="fw-bold mt-4">
                         KSVM • ASYM
-                    </h5> -->
+                    </h5>
                 </div>
 
                 <!-- RIGHT IMAGE -->
@@ -70,7 +70,7 @@
 
             <!-- Gradient Heading Line -->
             <h4 class="fw-bold text-center gradient-title px-4 py-2 mb-5">
-                Laying the foundation of Excellence
+                Lying the foundation of Excellence
             </h4>
 
             <div class="row g-4">
@@ -99,8 +99,13 @@
                     </div>
                 </div>
 
-               
-                
+                <!-- Box 4 (Extra Value) -->
+                <div class="col-md-3">
+                    <div class="core-box">
+                        <h5 class="fw-bold">Excellence</h5>
+                        <p>Striving for the highest standard in academics & behaviour.</p>
+                    </div>
+                </div>
 
             </div>
 
