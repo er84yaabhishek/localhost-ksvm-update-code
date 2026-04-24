@@ -244,23 +244,26 @@
                         </li>
 
                         {{-- Site Settings --}}
-                        <li class="nav-item {{ Route::is('admin.site.*') ? 'active' : '' }}">
-                            <a data-toggle="collapse" href="#siteSettingsMenu"
-                                aria-expanded="{{ Route::is('admin.site.*') ? 'true' : 'false' }}">
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#siteSettingsMenu">
                                 <i class="fas fa-cog"></i>
                                 <p>Site Settings</p>
                                 <span class="caret"></span>
                             </a>
-                            <div class="collapse {{ Route::is('admin.site.*') ? 'show' : '' }}" id="siteSettingsMenu">
+                            <div class="collapse" id="siteSettingsMenu">
                                 <ul class="nav nav-collapse">
-                                    <li class="{{ Route::is('admin.site.settings') ? 'active' : '' }}">
+                                    <li>
                                         <a href="{{ route('admin.site.settings') }}">
-                                            <span class="sub-item">General (Header/Footer)</span>
+                                            <span class="sub-item">
+                                                <i class="fas fa-sliders-h"></i> General (Header/Footer)
+                                            </span>
                                         </a>
                                     </li>
-                                    <li class="{{ Route::is('admin.site.nav') ? 'active' : '' }}">
+                                    <li>
                                         <a href="{{ route('admin.site.nav') }}">
-                                            <span class="sub-item">Navigation Menu</span>
+                                            <span class="sub-item">
+                                                <i class="fas fa-bars"></i> Navigation Menu
+                                            </span>
                                         </a>
                                     </li>
                                 </ul>

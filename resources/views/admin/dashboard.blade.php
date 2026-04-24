@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+﻿@extends('admin.layout.app')
 
 @section('content')
 
@@ -84,6 +84,80 @@
                                 </div>
                             </div>
                         </div>
+
+            </div>{{-- end stats row --}}
+
+            {{-- ===== QUICK ACCESS: WEBSITE MANAGEMENT ===== --}}
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h4 class="text-white mb-3"><i class="fas fa-globe"></i> Website Management - Quick Access</h4>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-3">
+                    <a href="{{ route('admin.site.settings') }}" class="text-decoration-none">
+                        <div class="card card-round" style="border-left:4px solid #e74c3c;cursor:pointer;">
+                            <div class="card-body py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="color:#e74c3c;font-size:28px;min-width:45px;" class="text-center mr-3"><i class="fas fa-cog"></i></div>
+                                    <div>
+                                        <p class="card-category mb-0" style="font-size:11px;">Header / Footer</p>
+                                        <h6 class="card-title mb-0 font-weight-bold">Site Settings</h6>
+                                        <small class="text-muted">Phone, Email, Address, Logo</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-3">
+                    <a href="{{ route('admin.site.nav') }}" class="text-decoration-none">
+                        <div class="card card-round" style="border-left:4px solid #3498db;cursor:pointer;">
+                            <div class="card-body py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="color:#3498db;font-size:28px;min-width:45px;" class="text-center mr-3"><i class="fas fa-bars"></i></div>
+                                    <div>
+                                        <p class="card-category mb-0" style="font-size:11px;">Header Menu</p>
+                                        <h6 class="card-title mb-0 font-weight-bold">Navigation Menu</h6>
+                                        <small class="text-muted">Menu links manage karo</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-3">
+                    <a href="{{ route('admin.homepage.hero') }}" class="text-decoration-none">
+                        <div class="card card-round" style="border-left:4px solid #2ecc71;cursor:pointer;">
+                            <div class="card-body py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="color:#2ecc71;font-size:28px;min-width:45px;" class="text-center mr-3"><i class="fas fa-home"></i></div>
+                                    <div>
+                                        <p class="card-category mb-0" style="font-size:11px;">Home Page</p>
+                                        <h6 class="card-title mb-0 font-weight-bold">Hero Section</h6>
+                                        <small class="text-muted">Title, tagline, buttons</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-sm-6 col-md-3 mb-3">
+                    <a href="{{ route('admin.banners.index') }}" class="text-decoration-none">
+                        <div class="card card-round" style="border-left:4px solid #f39c12;cursor:pointer;">
+                            <div class="card-body py-3">
+                                <div class="d-flex align-items-center">
+                                    <div style="color:#f39c12;font-size:28px;min-width:45px;" class="text-center mr-3"><i class="fas fa-images"></i></div>
+                                    <div>
+                                        <p class="card-category mb-0" style="font-size:11px;">Home Page</p>
+                                        <h6 class="card-title mb-0 font-weight-bold">Banners</h6>
+                                        <small class="text-muted">Slider images manage karo</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>{{-- end quick access --}}
+
                     </div>
                 </div>
 
