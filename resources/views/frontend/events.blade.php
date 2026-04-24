@@ -1,58 +1,74 @@
 @extends('frontend.layout.app')
 @section('content')
 
+@include('frontend.partials.page_banner', ['title' => "Events", 'breadcrumb' => 'Events'])
 
-    
-
-    <style>
-        .bg-img {
-            background: url(watermarkingd008.html?image=&amp;maxim_size=8000) 0 36% no-repeat;
-            background-size: auto;
-            -webkit-background-size: cover;
-            background-size: cover;
-        }
-    </style>
-
-
-    <section class="inner-intro bg-img light-color overlay-before parallax-background">
-        <div class="container">
-            <div class="row title">
-                <h2><span>Event's</span></h2>
-            </div>
+<section class="py-5" style="background:#f8f4f8;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our Events</h2>
+            <p class="section-subtitle mt-3">Celebrating learning, culture and achievement at KSVM</p>
         </div>
-    </section>
 
-
-    <!-- event Start -->
-    <div class="container-xxl py-5">
-        <div class="container">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="title">Event's</h6>
-                <h1 class="mb-5">Check Our Event's</h1>
+        @if(count($event) > 0)
+        <div class="row g-4">
+            @foreach($event as $ev)
+            <div class="col-lg-4 col-md-6">
+                <div class="event-card">
+                    <div class="event-img-wrap">
+                        <img src="{{ public_asset('event/'.$ev->image) }}" alt="{{ $ev->title }}" loading="lazy">
+                        <div class="event-badge">Event</div>
+                    </div>
+                    <div class="event-body">
+                        <h5 class="event-title">{{ $ev->title }}</h5>
+                        @if($ev->description)
+                        <p class="event-desc">{{ Str::limit(strip_tags($ev->description), 100) }}</p>
+                        @endif
+                        <a href="{{ route('home.events.detalies', $ev->slug) }}" class="event-btn">
+                            View Details <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="row g-4">
-                <!-- event items would go here -->
-                @foreach ($event as $event)
-                    {{-- <a href="{{ route('home.events.detalies', $event->slug) }}" title="{{ $event->title }}"> --}}
-                        <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="team-item bg-light">
-                                <div class="overflow-hidden">
-                                    <img class="img-fluid" src="{{ public_asset('event/' . $event->image) }}" alt="">
-                                </div>
-                                <a href="{{ route('home.events.detalies', $event->slug) }}" title="{{ $event->title }}">
-                                    <div class="text-center p-4">
-                                        <h5 class="mb-0">{{ $event->title }}</h5>
-                                        {{-- <p> {{ $event->description }}</p> --}}
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        {{--
-                    </a> --}}
-                @endforeach
-            </div>
+            @endforeach
         </div>
+        @else
+        <div class="text-center py-5">
+            <i class="fas fa-calendar-times fa-4x text-muted mb-3 d-block"></i>
+            <h5 class="text-muted">No events at the moment. Check back soon!</h5>
+        </div>
+        @endif
     </div>
-    <!-- Gallery End -->
+</section>
 
+<style>
+.event-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 100%;
+    display: flex; flex-direction: column;
+}
+.event-card:hover { transform: translateY(-6px); box-shadow: 0 15px 40px rgba(122,26,88,0.15); }
+.event-img-wrap { position: relative; overflow: hidden; aspect-ratio: 16/9; }
+.event-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+.event-card:hover .event-img-wrap img { transform: scale(1.06); }
+.event-badge {
+    position: absolute; top: 14px; left: 14px;
+    background: linear-gradient(135deg, #7a1a58, #5a1240);
+    color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+}
+.event-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+.event-title { font-size: 17px; font-weight: 600; color: #1a1a2e; margin-bottom: 10px; line-height: 1.4; }
+.event-desc { font-size: 14px; color: #666; flex: 1; margin-bottom: 16px; }
+.event-btn {
+    display: inline-flex; align-items: center;
+    color: #7a1a58; font-weight: 600; font-size: 14px;
+    text-decoration: none; transition: gap 0.3s;
+    border-top: 1px solid #f0e8f0; padding-top: 14px; margin-top: auto;
+}
+.event-btn:hover { color: #5a1240; gap: 8px; }
+</style>
 @endsection

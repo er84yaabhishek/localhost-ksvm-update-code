@@ -1,182 +1,95 @@
 @extends('frontend.layout.app')
 @section('content')
-    <style>
-        .bg-img {
-            background: url(watermarkingd008.html?image=&amp;maxim_size=8000) 0 36% no-repeat;
-            background-size: auto;
-            -webkit-background-size: cover;
-            background-size: cover;
-        }
-    </style>
-    <section class="inner-intro bg-img light-color overlay-before parallax-background">
-        <div class="container">
-            <div class="row title">
-                <h2><span>Courses & Subject's</span></h2>
+
+@include('frontend.partials.page_banner', ['title' => 'Courses & Subjects', 'breadcrumb' => 'Courses'])
+
+<section class="py-5" style="background:#f8f4f8;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our Curriculum</h2>
+            <p class="section-subtitle mt-3">Well structured curriculum based on New Education Policy 2020</p>
+        </div>
+
+        {{-- Curriculum Cards --}}
+        <div class="row g-4 mb-5">
+            @php
+            $classes = [
+                ['label'=>'P.G. / L.K.G. / U.K.G.', 'color'=>'#4A90D9', 'icon'=>'fas fa-child', 'subjects'=>['English','Hindi','Maths','E.V.S','Poem Recitation','Computer']],
+                ['label'=>'Class I – III', 'color'=>'#E67E22', 'icon'=>'fas fa-pencil-alt', 'subjects'=>['English','Hindi','Maths','E.V.S','Computer','G.K.']],
+                ['label'=>'Class IV – VIII', 'color'=>'#27AE60', 'icon'=>'fas fa-book', 'subjects'=>['English','Hindi','Maths','Science','Social Science','Computer','Sanskrit','G.K.']],
+                ['label'=>'Class IX – X', 'color'=>'#8E44AD', 'icon'=>'fas fa-flask', 'subjects'=>['English','Hindi','Maths','Science','Social Science','Computer / Geometrical Art']],
+                ['label'=>'Class XI – XII', 'color'=>'#C0392B', 'icon'=>'fas fa-atom', 'subjects'=>['English','Hindi','Physics','Chemistry','Maths / Biology']],
+            ];
+            @endphp
+            @foreach($classes as $cls)
+            <div class="col-lg-4 col-md-6">
+                <div class="curriculum-card" style="--card-color:{{ $cls['color'] }};">
+                    <div class="curriculum-header">
+                        <div class="curriculum-icon"><i class="{{ $cls['icon'] }}"></i></div>
+                        <h5>{{ $cls['label'] }}</h5>
+                    </div>
+                    <ul class="curriculum-subjects">
+                        @foreach($cls['subjects'] as $sub)
+                        <li><i class="fas fa-check-circle"></i> {{ $sub }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            @endforeach
+
+            {{-- Skills --}}
+            <div class="col-lg-4 col-md-6">
+                <div class="curriculum-card" style="--card-color:#16A085;">
+                    <div class="curriculum-header">
+                        <div class="curriculum-icon"><i class="fas fa-palette"></i></div>
+                        <h5>Co-Curricular Skills</h5>
+                    </div>
+                    <ul class="curriculum-subjects">
+                        <li><i class="fas fa-check-circle"></i> Art & Craft</li>
+                        <li><i class="fas fa-check-circle"></i> Music</li>
+                        <li><i class="fas fa-check-circle"></i> Dance</li>
+                        <li><i class="fas fa-check-circle"></i> Physical Education</li>
+                        <li><i class="fas fa-check-circle"></i> Value Education</li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </section>
-    <style>
-        /* .container {
-            width: 85%;
-            margin: 25px auto;
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
-        } */
 
-        .title {
-            text-align: center;
-            font-size: 32px;
-            font-weight: bold;
-            color: #7c1f82;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 16px;
-            margin-bottom: 25px;
-            color: #444;
-        }
-
-        /* Table */
-        .class-box {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .class-box th {
-            padding: 12px;
-            color: white;
-            font-size: 18px;
-        }
-
-        .class-box td {
-            padding: 10px;
-            vertical-align: top;
-            font-size: 15px;
-        }
-
-        /* Header Colors */
-        .pg {
-            background: #c7e8ff;
-        }
-
-        .i-iii {
-            background: #ffd6c9;
-        }
-
-        .iv-viii {
-            background: #ffe9b2;
-        }
-
-        .ix-x {
-            background: #d3f5c0;
-        }
-
-        .xi-xii {
-            background: #c6d7ff;
-        }
-
-        /* Top Bars */
-        .skills-bar {
-            width: 100%;
-            background: #e5b88a;
-            color: black;
-            padding: 8px;
-            text-align: center;
-            font-weight: bold;
-            margin-bottom: 25px;
-        }
-
-        /* Code of discipline */
-        .code-title {
-            background: #7c1f82;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            font-size: 20px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        .rules {
-            line-height: 1.6;
-            font-size: 15px;
-            color: #333;
-        }
-    </style>
-
-    <!-- ABOUT SCHOOL SECTION -->
-    <section class="py-5 about-section">
-        <div class="container">
-
-            <div class="title">Our Curriculum</div>
-            <div class="subtitle">
-                The school has drawn well structured curriculum based on New Education Policy 2020 to meet the needs of all
-                the
-                students.
-            </div>
-
-            <!-- Classes Table -->
-            <table class="class-box" border="1">
-                <tr>
-                    <th class="pg">P.G., L.K.G., U.K.G.</th>
-                    <th class="i-iii">I - III</th>
-                    <th class="iv-viii">IV - VIII</th>
-                    <th class="ix-x">IX - X</th>
-                    <th class="xi-xii">XI - XII</th>
-                </tr>
-                <tr>
-                    <td class="pg">
-                        English<br>Hindi<br>Maths<br>E.V.S<br>Poem Recitation<br>Computer
-                    </td>
-                    <td class="i-iii">
-                        English<br>Hindi<br>Maths<br>E.V.S<br>Computer<br>G.K.
-                    </td>
-                    <td class="iv-viii">
-                        English<br>Hindi<br>Maths<br>Science<br>Social Science<br>Computer<br>Sanskrit<br>G.K.
-                    </td>
-                    <td class="ix-x">
-                        English<br>Hindi<br>Maths<br>Science<br>Social Science<br>Computer / Geometrical Art
-                    </td>
-                    <td class="xi-xii">
-                        English<br>Hindi<br>Physics<br>Chemistry<br>Maths/Bio
-                    </td>
-                </tr>
-            </table>
-
-            <!-- Skills -->
-            <div class="skills-bar">
-                Skills – Art | Music | Dance | Physical Education | Value Education
-            </div>
-
-            <!-- Code of Discipline -->
-            <div class="code-title">
-                Code of Discipline for the Students
-            </div>
-
-            <div class="rules">
-                <b>Discipline is the habit of acting in accordance with certain rules - Here are some rules to be followed
-                    -</b><br><br>
-
-                1. Students are expected to come in proper school uniform. Neatness and cleanliness will be encouraged.<br>
-                2. Regularity in attendance is must & praised. A student must get the permission of the Class Teacher or
-                Principal in case of leave.<br>
-                3. In case a student is absent for more than ten consecutive days without permission, his/her name is liable
-                to
-                be struck off.<br>
-                4. Students suffering from contagious disease are not allowed to attend the school without medical
-                fitness.<br>
-                5. Misbehavior with teachers or abusive conduct will be dealt with severity.<br>
-                6. Damage to school property will be charged to parents.<br>
-                7. If a student is called for an extra class or activity, he/she must be present without fail.
-            </div>
-
+        {{-- Discipline --}}
+        <div class="content-card">
+            <h4 class="content-card-title"><i class="fas fa-shield-alt me-2"></i>Code of Discipline</h4>
+            <ul class="ksvm-list">
+                <li>Students are expected to come in proper school uniform. Neatness and cleanliness will be encouraged.</li>
+                <li>Regularity in attendance is must. A student must get permission of the Class Teacher or Principal in case of leave.</li>
+                <li>If a student is absent for more than ten consecutive days without permission, his/her name is liable to be struck off.</li>
+                <li>Students suffering from contagious disease are not allowed to attend school without medical fitness.</li>
+                <li>Misbehavior with teachers or abusive conduct will be dealt with severity.</li>
+                <li>Damage to school property will be charged to parents.</li>
+                <li>If a student is called for an extra class or activity, he/she must be present without fail.</li>
+            </ul>
         </div>
-    </section>
+    </div>
+</section>
 
+<style>
+.curriculum-card {
+    background:#fff; border-radius:14px; overflow:hidden;
+    box-shadow:0 4px 20px rgba(0,0,0,0.07); height:100%;
+    transition:transform 0.3s, box-shadow 0.3s;
+    border-top:4px solid var(--card-color);
+}
+.curriculum-card:hover { transform:translateY(-5px); box-shadow:0 12px 35px rgba(0,0,0,0.12); }
+.curriculum-header { padding:20px 20px 14px; display:flex; align-items:center; gap:14px; border-bottom:1px solid #f5f5f5; }
+.curriculum-icon { width:44px; height:44px; border-radius:10px; background:var(--card-color); display:flex; align-items:center; justify-content:center; color:#fff; font-size:18px; flex-shrink:0; }
+.curriculum-header h5 { margin:0; font-weight:700; color:#1a1a2e; font-size:15px; }
+.curriculum-subjects { list-style:none; padding:16px 20px; margin:0; }
+.curriculum-subjects li { padding:6px 0; font-size:14px; color:#555; display:flex; align-items:center; gap:8px; border-bottom:1px solid #f9f9f9; }
+.curriculum-subjects li i { color:var(--card-color); font-size:12px; flex-shrink:0; }
+
+.content-card { background:#fff; border-radius:12px; padding:28px; box-shadow:0 4px 20px rgba(0,0,0,0.07); }
+.content-card-title { font-size:18px; font-weight:700; color:#7a1a58; margin-bottom:20px; padding-bottom:12px; border-bottom:2px solid #f0e8f0; }
+.ksvm-list { padding-left:0; list-style:none; }
+.ksvm-list li { padding:8px 0 8px 22px; position:relative; font-size:14px; color:#444; border-bottom:1px solid #f5f5f5; }
+.ksvm-list li::before { content:'›'; position:absolute; left:0; color:#7a1a58; font-size:18px; line-height:1.3; font-weight:bold; }
+</style>
 @endsection

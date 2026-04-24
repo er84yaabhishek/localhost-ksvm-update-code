@@ -1,179 +1,94 @@
 @extends('frontend.layout.app')
 @section('content')
 
+@include('frontend.partials.page_banner', ['title' => 'About Us', 'breadcrumb' => 'About Us'])
 
-    <style>
-        .bg-img {
-            background: url(watermarkingd008.html?image=&amp;maxim_size=8000) 0 36% no-repeat;
-            background-size: auto;
-            -webkit-background-size: cover;
-            background-size: cover;
-        }
-    </style>
-
-
-    <section class="inner-intro bg-img light-color overlay-before parallax-background">
-        <div class="container">
-            <div class="row title">
-                <h2><span>About US</span></h2>
+{{-- About School --}}
+<section class="py-5" style="background:#fff;">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <span class="about-tag">Est. 2009</span>
+                <h2 class="about-heading">About <span style="color:#7a1a58;">K.S.V.M.</span> Education Centre</h2>
+                <p class="about-text">K.S.V.M is a Private English Medium Co-educational institute, established and managed by <strong>"Late Pt. Parmeshwar Deen Educational Society."</strong> It was started in 2009 with the name <strong>"Kailas Public School"</strong> from classes playgroup to 5th.</p>
+                <p class="about-text">In the period of 10 years, the planted tree K.P.S. spread its branches and in 2019, the management committee received affiliation from <strong>U.P. Board Prayagraj</strong> for senior secondary classes and started <strong>K.S.V.M. Education Centre (6th to 12th standard)</strong> with science stream.</p>
+                <p class="about-text">Now the school has a three-storeyed building, with magnificent infrastructure and the best teachers to enhance the abilities of the students.</p>
+                <div class="about-stats">
+                    <div class="stat-item"><span class="stat-num">15+</span><span class="stat-label">Years of Excellence</span></div>
+                    <div class="stat-item"><span class="stat-num">1000+</span><span class="stat-label">Students Enrolled</span></div>
+                    <div class="stat-item"><span class="stat-num">50+</span><span class="stat-label">Expert Teachers</span></div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-img-wrap">
+                    <img src="{{ public_asset('front/img/ksvmabout.webp') }}" alt="About KSVM" class="img-fluid">
+                    <div class="about-img-badge">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Quality Education</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-
-
-
-    <!-- ABOUT SCHOOL SECTION -->
-    <section class="py-5 about-section">
-        <div class="container">
-            <div class="row align-items-center">
-
-                <!-- LEFT CONTENT -->
-                <div class="col-md-7">
-                    <h2 class="fw-bold mb-3">About School</h2>
-
-                    <p class="text-muted">
-                        K.S.V.M is a Private English Medium Co-educational institute, established and managed by
-                        <strong>"Late Pt. Parmeshwar Deen Educational Society."</strong> It was started in 2009
-                        with the name <strong>"Kailas Public School"</strong> from classes playgroup to 5th.
-                    </p>
-
-                    <p class="text-muted">
-                        In the period of 10 years, the planted tree K.P.S. spread its branches and in 2019,
-                        the management committee received affiliation from <strong>U.P. Board Prayagraj</strong>
-                        for senior secondary classes and started
-                        <strong>K.S.V.M. Education Centre (6th to 12th standard)</strong> with science stream.
-                    </p>
-
-                    <p class="text-muted">
-                        Now the school has a three-storeyed building, with magnificent infrastructure and the best
-                        teachers to enhance the abilities of the students.
-                    </p>
-
-                    <h5 class="fw-bold mt-4">
-                        KSVM • ASYM
-                    </h5>
-                </div>
-
-                <!-- RIGHT IMAGE -->
-                <div class="col-md-5 text-center">
-                    <img src="{{ public_asset('front/img/ksvmabout.webp') }}" alt="About School" class="img-fluid rounded shadow">
-                </div>
-
-            </div>
+{{-- Core Values --}}
+<section class="py-5" style="background:#f8f4f8;">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Our Core Values</h2>
+            <p class="section-subtitle mt-3">Laying the foundation of Excellence</p>
         </div>
-    </section>
-    <section class="py-5" id="core-values">
-        <div class="container">
-
-            <h2 class="text-center fw-bold mb-4">Core Values</h2>
-
-            <!-- Gradient Heading Line -->
-            <h4 class="fw-bold text-center gradient-title px-4 py-2 mb-5">
-                Lying the foundation of Excellence
-            </h4>
-
-            <div class="row g-4">
-
-                <!-- Box 1 -->
-                <div class="col-md-3">
-                    <div class="core-box">
-                        <h5 class="fw-bold">Education</h5>
-                        <p>Building strong academic understanding and learning habits.</p>
-                    </div>
+        <div class="row g-4">
+            @php
+            $values = [
+                ['icon'=>'fas fa-book-open', 'title'=>'Education', 'desc'=>'Building strong academic understanding and learning habits for lifelong success.'],
+                ['icon'=>'fas fa-hands', 'title'=>'Manners', 'desc'=>'Developing positive behaviour, respect, and values in every student.'],
+                ['icon'=>'fas fa-shield-alt', 'title'=>'Discipline', 'desc'=>'Creating self-control, focus and responsibility in students.'],
+                ['icon'=>'fas fa-star', 'title'=>'Excellence', 'desc'=>'Striving for the highest standard in academics and behaviour.'],
+            ];
+            @endphp
+            @foreach($values as $val)
+            <div class="col-md-6 col-lg-3">
+                <div class="value-card">
+                    <div class="value-icon"><i class="{{ $val['icon'] }}"></i></div>
+                    <h5>{{ $val['title'] }}</h5>
+                    <p>{{ $val['desc'] }}</p>
                 </div>
-
-                <!-- Box 2 -->
-                <div class="col-md-3">
-                    <div class="core-box">
-                        <h5 class="fw-bold">Manners</h5>
-                        <p>Developing positive behaviour, respect, and values.</p>
-                    </div>
-                </div>
-
-                <!-- Box 3 -->
-                <div class="col-md-3">
-                    <div class="core-box">
-                        <h5 class="fw-bold">Discipline</h5>
-                        <p>Creating self-control, focus and responsibility in students.</p>
-                    </div>
-                </div>
-
-                <!-- Box 4 (Extra Value) -->
-                <div class="col-md-3">
-                    <div class="core-box">
-                        <h5 class="fw-bold">Excellence</h5>
-                        <p>Striving for the highest standard in academics & behaviour.</p>
-                    </div>
-                </div>
-
             </div>
-
+            @endforeach
         </div>
-    </section>
+    </div>
+</section>
 
-    <style>
-        /* Gradient top title */
-        #core-values .gradient-title {
-            background: linear-gradient(90deg, #9b1caa, #d14a8c);
-            color: #fff;
-            border-radius: 40px;
-            display: inline-block;
-        }
+{{-- CTA --}}
+<section class="py-5" style="background:linear-gradient(135deg,#7a1a58,#5a1240);">
+    <div class="container text-center">
+        <h3 style="color:#fff; font-weight:700; margin-bottom:12px;">Ready to Join KSVM Family?</h3>
+        <p style="color:rgba(255,255,255,0.8); margin-bottom:24px;">Admissions are open. Give your child the best start in life.</p>
+        <a href="{{ route('home.admissions') }}" style="background:#FFD700; color:#1a1a2e; padding:14px 32px; border-radius:30px; font-weight:700; text-decoration:none; font-size:15px; transition:all 0.3s; display:inline-block;">
+            <i class="fas fa-graduation-cap me-2"></i> Apply for Admission
+        </a>
+    </div>
+</section>
 
-        /* Core Value Boxes */
-        #core-values .core-box {
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            text-align: center;
-            transition: 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-        }
+<style>
+.about-tag { background:#f0e8f0; color:#7a1a58; padding:6px 16px; border-radius:20px; font-size:13px; font-weight:600; display:inline-block; margin-bottom:16px; }
+.about-heading { font-size:34px; font-weight:700; color:#1a1a2e; line-height:1.3; margin-bottom:20px; }
+.about-text { font-size:15px; color:#555; line-height:1.8; margin-bottom:14px; }
+.about-stats { display:flex; gap:30px; margin-top:28px; flex-wrap:wrap; }
+.stat-item { text-align:center; }
+.stat-num { display:block; font-size:32px; font-weight:800; color:#7a1a58; line-height:1; }
+.stat-label { font-size:12px; color:#888; font-weight:500; }
+.about-img-wrap { position:relative; border-radius:16px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.about-img-wrap img { width:100%; display:block; }
+.about-img-badge { position:absolute; bottom:20px; left:20px; background:linear-gradient(135deg,#7a1a58,#5a1240); color:#fff; padding:12px 20px; border-radius:10px; display:flex; align-items:center; gap:10px; font-weight:600; font-size:14px; }
+.about-img-badge i { font-size:20px; color:#FFD700; }
 
-        #core-values .core-box:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            border-color: #d14a8c;
-        }
-
-        #core-values .core-box h5 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: #2c2c2c;
-        }
-
-        #core-values .core-box p {
-            font-size: 0.95rem;
-            color: #555;
-            margin: 0;
-        }
-    </style>
-
-
-    <!-- CUSTOM CSS -->
-    <style>
-        .about-section p {
-            font-size: 16px;
-            line-height: 1.7;
-        }
-
-        .about-section h2 {
-            color: #0d1b2a;
-            font-size: 32px;
-        }
-
-        .about-section img {
-            border-radius: 12px;
-            transition: 0.3s ease;
-        }
-
-        .about-section img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-    </style>
-
-
+.value-card { background:#fff; border-radius:14px; padding:28px 22px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.06); transition:all 0.3s; height:100%; }
+.value-card:hover { transform:translateY(-6px); box-shadow:0 12px 35px rgba(122,26,88,0.15); }
+.value-icon { width:64px; height:64px; border-radius:16px; background:linear-gradient(135deg,#7a1a58,#5a1240); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; color:#fff; font-size:26px; }
+.value-card h5 { font-weight:700; color:#1a1a2e; margin-bottom:10px; }
+.value-card p { font-size:14px; color:#666; margin:0; line-height:1.6; }
+</style>
 @endsection
