@@ -1,99 +1,74 @@
 @extends('admin.layout.app')
 
 @section('content')
-    <div class="main-panel">
-        <div class="content">
-            <div class="page-inner">
-                <div class="page-header">
-                    <h4 class="page-title">Edit Gallery</h4>
-                    <ul class="breadcrumbs">
-                        <li class="nav-home">
-                            <a href="{{ url('admin/dashboard') }}">
-                                <i class="fa fa-home"></i>
+<div class="main-panel">
+    <div class="content">
+        <div class="page-inner">
+            <div class="page-header">
+                <h4 class="page-title">Edit Gallery</h4>
+                <ul class="breadcrumbs">
+                    <li class="nav-home">
+                        <a href="{{ route('admin.dashboard') }}"><i class="flaticon-home"></i></a>
+                    </li>
+                    <li class="separator"><i class="flaticon-right-arrow"></i></li>
+                    <li class="nav-item">Gallery Management</li>
+                    <li class="separator"><i class="flaticon-right-arrow"></i></li>
+                    <li class="nav-item">Edit Gallery</li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h4 class="card-title mb-0">Edit Gallery Image</h4>
+                            <a href="{{ route('admin.gallery') }}" class="btn btn-info btn-sm">
+                                <i class="fas fa-arrow-left"></i> Back to Gallery
                             </a>
-                        </li>
-                        <li class="separator">
-                            <i class="fa fa-arrow-right"></i>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#">Gallery Management</a>
-                        </li>
-                        <li class="separator">
-                            <i class="fa fa-arrow-right"></i>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#">Edit Gallery</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title d-inline-block">Edit Gallery</div>
-                                <a class="btn btn-info btn-sm float-right d-inline-block"
-                                    href="{{ route('admin.gallery') }}">
-                                    <span class="btn-label">
-                                        <i class="fas fa-backward"></i>
-                                    </span>
-                                    Back
-                                </a>
-                            </div>
-                            <div class="card-body pt-5 pb-5">
-                                <div class="row">
-                                    <div class="col-lg-6 offset-lg-3">
-                                        <form id="ajaxForm" class="" action="{{ route('admin.gallery.update', $gallery->id) }}"
-                                            method="post" enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="px-2">
-                                                <input type="hidden" name="id" value="{{ $gallery->id }}">
-                                                 <label for="" class="mb-2"><strong>Images **</strong></label>
-                                                 <img src="{{ public_asset('images/' . $gallery->image) }}" alt="{{ $gallery->title }}" class="img-fluid mb-3" style="max-height: 200px; object-fit: cover;">
-                                                <div class="fallback">
-                                                    <input name="gallery_image" type="file" accept="image/*" />
-                                                </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="alertBox"></div>
+
+                            <div class="row justify-content-center">
+                                <div class="col-lg-7">
+                                    <form id="galleryEditForm" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" name="id" value="{{ $gallery->id }}">
+
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Current Image</label>
+                                            <div class="mb-2">
+                                                <img id="imgPreview"
+                                                    src="{{ public_asset('images/'.$gallery->image) }}"
+                                                    style="max-height:200px; border-radius:8px; border:1px solid #ddd; padding:4px;">
                                             </div>
-                                            <div class="px-2 mt-3">
-                                                <label for="" class="mb-2"><strong>Video</strong></label>
-                                                @if($gallery->video)
-                                                    <video width="100%" height="200" controls class="mb-3" style="max-height: 200px;">
-                                                        <source src="{{ public_asset('images/' . $gallery->video) }}" type="video/{{ pathinfo($gallery->video, PATHINFO_EXTENSION) }}">
-                                                        Your browser does not support the video tag.
-                                                    </video>
-                                                    <p class="text-muted small">Current video: {{ $gallery->video }}</p>
-                                                @else
-                                                    <p class="text-muted small">No video uploaded</p>
-                                                @endif
-                                                <div class="fallback">
-                                                    <input name="gallery_video" type="file" accept="video/*" />
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="">Title **</label>
-                                                        <input type="text" class="form-control" name="title" value=" {{ $gallery->title }} "
-                                                            placeholder="Enter title">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label for="">Description **</label>
-                                                        <textarea class="form-control" id="description" name="description"
-                                                            placeholder="Enter description" data-height="300">{{ $gallery->description }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group from-show-notify row">
-                                                <div class="col-12 text-center">
-                                                    <button type="submit" class="btn btn-success">Submit</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        
-                                    </div>
+                                            <label class="font-weight-bold">Change Image <small class="text-muted">(optional)</small></label>
+                                            <input type="file" name="gallery_image" class="form-control" accept="image/*"
+                                                onchange="previewImg(this, 'imgPreview')">
+                                            <small class="text-muted">Khali chhodo agar image change nahi karni</small>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Title <span class="text-danger">*</span></label>
+                                            <input type="text" name="title" class="form-control"
+                                                value="{{ $gallery->title }}" placeholder="Enter gallery title" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Description</label>
+                                            <textarea name="description" class="form-control" rows="4"
+                                                placeholder="Enter description">{{ $gallery->description }}</textarea>
+                                        </div>
+
+                                        <div class="form-group text-center mt-4">
+                                            <button type="submit" class="btn btn-success btn-lg px-5" id="submitBtn">
+                                                <i class="fas fa-save"></i> Update Gallery
+                                            </button>
+                                            <a href="{{ route('admin.gallery') }}" class="btn btn-secondary btn-lg px-4 ml-2">
+                                                Cancel
+                                            </a>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -101,54 +76,48 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <div class="container-fluid">
-                 <div class="d-block mx-auto">
-                    Copyright © 2025. All rights reserved by <a href="https://analysishms.com/" target="_blank">Analysish
-                        Software</a>..
-                </div>
-            </div>
-        </footer>
     </div>
-
-
-
-    <script src="{{ public_asset('admin/customjs/productadd.js') }}"></script>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-
-        $(document).ready(function () {
-            $('#ajaxForm').submit(function (e) {
-                e.preventDefault(); // Prevent the default form submission
-
-                var formData = new FormData(this); // Collect form data
-
-                $.ajax({
-                    url: $('#ajaxForm').attr('action'), // Use Laravel's route helper
-                    type: 'POST',
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    success: function (response) {
-                        bootnotify('Gallery Update Successfully!', 'Gallery Update!', 'success');
-                        console.log(response.url);
-                        loadWindowRedirect(response.url);
-                    },
-                    error: function (xhr) {
-                        // Handle validation errors
-                        var errors = xhr.responseJSON.errors;
-                        if (errors) {
-                            $.each(errors, function (key, value) {
-                                // $('#err' + key).text(value[0]);
-                                bootnotify(value[0], 'Gallery Update!', 'danger')
-                            });
-                        }
-                    }
-                });
-            });
-        });
-
-        ////////////  Get Subcategory  //////#
-    </script>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+function previewImg(input, previewId) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) { $('#' + previewId).attr('src', e.target.result); };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(document).ready(function() {
+    $('#galleryEditForm').on('submit', function(e) {
+        e.preventDefault();
+        var btn = $('#submitBtn');
+        btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin"></i> Updating...');
+        $('#alertBox').html('');
+
+        $.ajax({
+            url: '{{ route("admin.gallery.update", $gallery->id) }}',
+            type: 'POST',
+            data: new FormData(this),
+            contentType: false,
+            processData: false,
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            success: function(res) {
+                bootnotify('Gallery updated successfully!', 'Success', 'success');
+                setTimeout(function() { window.location.href = '{{ route("admin.gallery") }}'; }, 1500);
+            },
+            error: function(xhr) {
+                btn.prop('disabled', false).html('<i class="fas fa-save"></i> Update Gallery');
+                var msg = xhr.responseJSON && xhr.responseJSON.errors
+                    ? Object.values(xhr.responseJSON.errors).flat().join('<br>')
+                    : (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Something went wrong.');
+                $('#alertBox').html('<div class="alert alert-danger alert-dismissible fade show"><strong><i class="fas fa-times-circle"></i> Error!</strong> ' + msg + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                $('html, body').animate({ scrollTop: 0 }, 400);
+            }
+        });
+    });
+});
+</script>
+@endpush
