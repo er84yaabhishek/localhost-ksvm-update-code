@@ -69,7 +69,7 @@
             <div class="col-lg-4">
                 <div class="contact-form-card">
                     <h5 class="mb-4"><i class="fas fa-paper-plane me-2" style="color:#7a1a58;"></i>Send a Message</h5>
-                    <form id="contactUsForm" method="POST">
+                    <form id="contactUsForm" method="POST" action="{{ route('home.contact.store') }}">
                         @csrf
                         <input type="hidden" name="form_type" value="contact_from">
                         <div class="mb-3">

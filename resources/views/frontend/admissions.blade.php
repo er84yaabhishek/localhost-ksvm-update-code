@@ -80,7 +80,7 @@
             <div class="col-lg-7">
                 <div class="content-card">
                     <h4 class="content-card-title"><i class="fas fa-paper-plane me-2"></i>Quick Admission Inquiry</h4>
-                    <form id="admissionForm" method="POST">
+                    <form id="admissionForm" method="POST" action="{{ route('home.admission.store') }}">
                         @csrf
                         <input type="hidden" name="form_type" value="admission_from">
                         <input type="hidden" name="subject" value="Admission Inquiry">
