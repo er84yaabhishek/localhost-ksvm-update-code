@@ -1,4 +1,4 @@
-@extends('frontend.layout.app')
+﻿@extends('frontend.layout.app')
 @section('content')
 
 @include('frontend.partials.page_banner', ['title' => 'Contact Us', 'breadcrumb' => 'Contact'])
@@ -159,6 +159,7 @@
 .btn-ksvm-primary:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 </style>
 
+@push('scripts')
 <script>
 $(document).ready(function() {
     $('#contactUsForm').on('submit', function(e) {
@@ -188,5 +189,5 @@ $(document).ready(function() {
         });
     });
 });
-</script>
+@endpush
 @endsection

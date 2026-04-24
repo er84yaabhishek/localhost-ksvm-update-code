@@ -259,5 +259,8 @@
         } catch(e) { console.error(e); }
     }
 </script>
+
+@stack('scripts')
+
 </body>
 </html>

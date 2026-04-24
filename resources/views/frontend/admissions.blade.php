@@ -80,6 +80,10 @@
             <div class="col-lg-7">
                 <div class="content-card">
                     <h4 class="content-card-title"><i class="fas fa-paper-plane me-2"></i>Quick Admission Inquiry</h4>
+
+                    {{-- Success/Error Alert --}}
+                    <div id="formAlert" style="display:none;" class="mb-3"></div>
+
                     <form id="admissionForm" method="POST" action="{{ route('home.admission.store') }}">
                         @csrf
                         <input type="hidden" name="form_type" value="admission_from">
@@ -166,38 +170,63 @@
 
 .ksvm-input { border:2px solid #e8e0e8; border-radius:8px; padding:10px 14px; font-size:14px; transition:border-color 0.3s,box-shadow 0.3s; }
 .ksvm-input:focus { border-color:#7a1a58; box-shadow:0 0 0 3px rgba(122,26,88,0.1); outline:none; }
-.btn-ksvm-primary { background:linear-gradient(135deg,#7a1a58,#5a1240); color:#fff; border:none; padding:13px 24px; border-radius:8px; font-weight:600; font-size:15px; cursor:pointer; transition:all 0.3s; box-shadow:0 4px 15px rgba(122,26,88,0.3); }
+.btn-ksvm-primary { background:linear-gradient(135deg,#7a1a58,#5a1240); color:#fff; border:none; padding:13px 24px; border-radius:8px; font-weight:600; font-size:15px; cursor:pointer; transition:all 0.3s; box-shadow:0 4px 15px rgba(122,26,88,0.3); display:block; width:100%; }
 .btn-ksvm-primary:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(122,26,88,0.4); }
 .btn-ksvm-primary:disabled { opacity:0.7; cursor:not-allowed; transform:none; }
 </style>
+@endsection
 
+@push('scripts')
 <script>
 $(document).ready(function() {
     $('#admissionForm').on('submit', function(e) {
         e.preventDefault();
+
         var btn = $('#submitBtn');
         btn.prop('disabled', true).html('<i class="fas fa-spinner fa-spin me-2"></i> Submitting...');
+        $('#formAlert').hide();
+
         $.ajax({
             url: "{{ route('home.admission.store') }}",
             type: 'POST',
             data: new FormData(this),
-            contentType: false, processData: false,
+            contentType: false,
+            processData: false,
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             success: function(res) {
                 $('#admissionForm')[0].reset();
                 btn.prop('disabled', false).html('<i class="fas fa-paper-plane me-2"></i> Submit Inquiry');
-                bootnotify(res.success || 'Inquiry submitted successfully!', 'Admission Form', 'success');
+
+                // Show success message on same page
+                $('#formAlert')
+                    .removeClass('alert-danger')
+                    .addClass('alert alert-success')
+                    .html('<i class="fas fa-check-circle me-2"></i><strong>Success!</strong> ' + (res.success || 'Inquiry submitted successfully! We will contact you soon.'))
+                    .show();
+
+                // Scroll to alert
+                $('html, body').animate({ scrollTop: $('#formAlert').offset().top - 100 }, 400);
             },
             error: function(xhr) {
                 btn.prop('disabled', false).html('<i class="fas fa-paper-plane me-2"></i> Submit Inquiry');
-                if (xhr.status === 422 && xhr.responseJSON.errors) {
-                    $.each(xhr.responseJSON.errors, function(k, v) { bootnotify(v[0], 'Error', 'danger'); });
-                } else {
-                    bootnotify('An error occurred. Please try again.', 'Error', 'danger');
+
+                var msg = 'An error occurred. Please try again.';
+                if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                    var msgs = [];
+                    $.each(xhr.responseJSON.errors, function(k, v) { msgs.push(v[0]); });
+                    msg = msgs.join('<br>');
                 }
+
+                $('#formAlert')
+                    .removeClass('alert-success')
+                    .addClass('alert alert-danger')
+                    .html('<i class="fas fa-exclamation-circle me-2"></i>' + msg)
+                    .show();
+
+                $('html, body').animate({ scrollTop: $('#formAlert').offset().top - 100 }, 400);
             }
         });
     });
 });
 </script>
-@endsection
+@endpush
