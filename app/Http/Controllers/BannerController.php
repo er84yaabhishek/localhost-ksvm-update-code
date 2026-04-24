@@ -54,34 +54,33 @@ class BannerController extends Controller
             // Handle image upload
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                
-                // Resize image to 1920x600
-                $imageName = time() . '_' . uniqid() . '.jpg';
+
+                $imageName       = time() . '_' . uniqid() . '.jpg';
                 $destinationPath = public_path('front/img/banners/' . $imageName);
-                
-                // Create image from uploaded file
-                $sourceImage = imagecreatefromstring(file_get_contents($image));
-                
-                // Create new image with target dimensions
+
+                $ext = strtolower($image->getClientOriginalExtension());
+                switch ($ext) {
+                    case 'jpg': case 'jpeg': $sourceImage = imagecreatefromjpeg($image->getRealPath()); break;
+                    case 'png':              $sourceImage = imagecreatefrompng($image->getRealPath());  break;
+                    case 'gif':              $sourceImage = imagecreatefromgif($image->getRealPath());  break;
+                    default:                 $sourceImage = imagecreatefromstring(file_get_contents($image->getRealPath())); break;
+                }
+
+                if (!$sourceImage) {
+                    return response()->json(['success' => false, 'message' => 'Could not process image.'], 422);
+                }
+
+                $srcW = imagesx($sourceImage);
+                $srcH = imagesy($sourceImage);
+
                 $resizedImage = imagecreatetruecolor(1920, 800);
-                
-                // Resize and copy
-                imagecopyresampled(
-                    $resizedImage,
-                    $sourceImage,
-                    0, 0, 0, 0,
-                    1920, 800,
-                    imagesx($sourceImage),
-                    imagesy($sourceImage)
-                );
-                
-                // Save as JPEG
+                $white = imagecolorallocate($resizedImage, 255, 255, 255);
+                imagefill($resizedImage, 0, 0, $white);
+                imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, 1920, 800, $srcW, $srcH);
                 imagejpeg($resizedImage, $destinationPath, 90);
-                
-                // Free memory
                 imagedestroy($sourceImage);
                 imagedestroy($resizedImage);
-                
+
                 $data['image'] = 'front/img/banners/' . $imageName;
             }
 
@@ -139,39 +138,38 @@ class BannerController extends Controller
             // Handle image upload
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
-                
+
                 // Delete old image
                 if ($banner->image && file_exists(public_path($banner->image))) {
                     unlink(public_path($banner->image));
                 }
-                
-                // Resize image to 1920x600
-                $imageName = time() . '_' . uniqid() . '.jpg';
+
+                $imageName       = time() . '_' . uniqid() . '.jpg';
                 $destinationPath = public_path('front/img/banners/' . $imageName);
-                
-                // Create image from uploaded file
-                $sourceImage = imagecreatefromstring(file_get_contents($image));
-                
-                // Create new image with target dimensions
+
+                $ext = strtolower($image->getClientOriginalExtension());
+                switch ($ext) {
+                    case 'jpg': case 'jpeg': $sourceImage = imagecreatefromjpeg($image->getRealPath()); break;
+                    case 'png':              $sourceImage = imagecreatefrompng($image->getRealPath());  break;
+                    case 'gif':              $sourceImage = imagecreatefromgif($image->getRealPath());  break;
+                    default:                 $sourceImage = imagecreatefromstring(file_get_contents($image->getRealPath())); break;
+                }
+
+                if (!$sourceImage) {
+                    return response()->json(['success' => false, 'message' => 'Could not process image.'], 422);
+                }
+
+                $srcW = imagesx($sourceImage);
+                $srcH = imagesy($sourceImage);
+
                 $resizedImage = imagecreatetruecolor(1920, 800);
-                
-                // Resize and copy
-                imagecopyresampled(
-                    $resizedImage,
-                    $sourceImage,
-                    0, 0, 0, 0,
-                    1920, 800,
-                    imagesx($sourceImage),
-                    imagesy($sourceImage)
-                );
-                
-                // Save as JPEG
+                $white = imagecolorallocate($resizedImage, 255, 255, 255);
+                imagefill($resizedImage, 0, 0, $white);
+                imagecopyresampled($resizedImage, $sourceImage, 0, 0, 0, 0, 1920, 800, $srcW, $srcH);
                 imagejpeg($resizedImage, $destinationPath, 90);
-                
-                // Free memory
                 imagedestroy($sourceImage);
                 imagedestroy($resizedImage);
-                
+
                 $data['image'] = 'front/img/banners/' . $imageName;
             }
 
