@@ -9,12 +9,8 @@ class Gallery extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'status',
-        'slug',
-        'title',
-        'description',
-        'image',
-        'user_id',
+        'status', 'slug', 'title', 'description',
+        'image', 'video', 'youtube_url', 'user_id',
     ];
     protected $casts = [
         'status' => 'boolean',

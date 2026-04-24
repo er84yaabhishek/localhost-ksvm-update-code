@@ -55,97 +55,75 @@ class AdminController extends Controller
 
     public function gallerystorepage(Request $request)
     {
-
-
         $request->validate([
-            'gallery_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            // 'gallery_video' => 'nullable|mimes:mp4,mov,avi,wmv,flv,mkv|max:51200', // Max 50MB
-            'title' => 'required|string|max:255',
+            'gallery_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'title'         => 'required|string|max:255',
+            'youtube_url'   => 'nullable|url|max:500',
         ]);
 
+        try {
+            $image     = $request->file('gallery_image');
+            $ext       = strtolower($image->getClientOriginalExtension());
+            $imageName = time() . '_' . uniqid() . '.jpg';
+            $savePath  = public_path('images/' . $imageName);
 
-        $image = $request->file('gallery_image');
-        $ext = strtolower($image->getClientOriginalExtension());
-        $imageName = time() . '.' . $ext;
-        $savePath = public_path('images/' . $imageName);
+            switch ($ext) {
+                case 'jpg':
+                case 'jpeg':
+                    $source = imagecreatefromjpeg($image->getRealPath());
+                    break;
+                case 'png':
+                    $source = imagecreatefrompng($image->getRealPath());
+                    break;
+                case 'gif':
+                    $source = imagecreatefromgif($image->getRealPath());
+                    break;
+                default:
+                    if ($request->expectsJson()) {
+                        return response()->json(['message' => 'Unsupported image type: ' . $ext], 422);
+                    }
+                    return back()->withErrors(['gallery_image' => 'Unsupported image type.'])->withInput();
+            }
 
-        // Target size
-        $targetWidth = 1780;
-        $targetHeight = 800;
+            if (!$source) {
+                if ($request->expectsJson()) {
+                    return response()->json(['message' => 'Could not process image.'], 422);
+                }
+                return back()->withErrors(['gallery_image' => 'Could not process image.'])->withInput();
+            }
 
-        // Load original image using GD
-        switch ($ext) {
-            case 'jpg':
-            case 'jpeg':
-                $source = imagecreatefromjpeg($image->getRealPath());
-                break;
-            case 'png':
-                $source = imagecreatefrompng($image->getRealPath());
-                break;
-            case 'gif':
-                $source = imagecreatefromgif($image->getRealPath());
-                break;
-            default:
-                return response()->json(['error' => 'Unsupported image type']);
+            list($width, $height) = getimagesize($image->getRealPath());
+            $targetWidth  = min($width, 1200);
+            $targetHeight = (int) ($height * ($targetWidth / $width));
+
+            $resized = imagecreatetruecolor($targetWidth, $targetHeight);
+            $white   = imagecolorallocate($resized, 255, 255, 255);
+            imagefill($resized, 0, 0, $white);
+            imagecopyresampled($resized, $source, 0, 0, 0, 0, $targetWidth, $targetHeight, $width, $height);
+            imagejpeg($resized, $savePath, 85);
+            imagedestroy($source);
+            imagedestroy($resized);
+
+            $data              = new Gallery();
+            $data->image       = $imageName;
+            $data->youtube_url = $request->youtube_url ?? null;
+            $data->status      = true;
+            $data->slug        = Str::slug($request->title) . '-' . time();
+            $data->title       = $request->title;
+            $data->description = $request->description ?? '';
+            $data->save();
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => 'Image uploaded successfully.', 'url' => route('admin.gallery')]);
+            }
+            return redirect()->route('admin.gallery')->with('success', 'Gallery image added successfully!');
+
+        } catch (\Exception $e) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Upload failed: ' . $e->getMessage()], 500);
+            }
+            return back()->withErrors(['gallery_image' => 'Upload failed: ' . $e->getMessage()])->withInput();
         }
-
-        list($width, $height) = getimagesize($image->getRealPath());
-
-        // Create blank resized canvas
-        $resized = imagecreatetruecolor($targetWidth, $targetHeight);
-
-        // Maintain transparency for PNG & GIF
-        if ($ext == 'png' || $ext == 'gif') {
-            imagecolortransparent($resized, imagecolorallocatealpha($resized, 0, 0, 0, 127));
-            imagealphablending($resized, false);
-            imagesavealpha($resized, true);
-        }
-
-        // Resize original → new size
-        imagecopyresampled(
-            $resized,
-            $source,
-            0,
-            0,
-            0,
-            0,
-            $targetWidth,
-            $targetHeight,
-            $width,
-            $height
-        );
-
-        // Save image
-        if ($ext == 'jpg' || $ext == 'jpeg') {
-            imagejpeg($resized, $savePath, 90);
-        } elseif ($ext == 'png') {
-            imagepng($resized, $savePath);
-        } elseif ($ext == 'gif') {
-            imagegif($resized, $savePath);
-        }
-
-        // Cleanup
-        imagedestroy($source);
-        imagedestroy($resized);
-
-        // Handle video upload
-        $videoName = null;
-        if ($request->hasFile('gallery_video')) {
-            $video = $request->file('gallery_video');
-            $videoExt = strtolower($video->getClientOriginalExtension());
-            $videoName = time() . '_video.' . $videoExt;
-            $video->move(public_path('images'), $videoName);
-        }
-
-        $data = new Gallery();
-        $data->image = $imageName;
-        $data->video = $videoName;
-        $data->status = true;
-        $data->slug = Str::slug($request->title);
-        $data->title = $request->title;
-        $data->description = $request->description;
-        $data->save();
-        return response()->json(['success' => 'Image Uploaded successfully.', 'url' => route('admin.gallery')]);
     }
 
     public function galleryeditpage($id)
@@ -250,10 +228,11 @@ class AdminController extends Controller
             $gallery->video = $videoName;
         }
 
-        $gallery->status = true;
-        $gallery->slug = Str::slug($request->title);
-        $gallery->title = $request->title;
-        $gallery->description = $request->description;
+        $gallery->status      = true;
+        $gallery->slug        = Str::slug($request->title) . '-' . $gallery->id;
+        $gallery->title       = $request->title;
+        $gallery->description = $request->description ?? '';
+        $gallery->youtube_url = $request->youtube_url ?? null;
         $gallery->save();
         return response()->json(['success' => 'Gallery Updated successfully.', 'url' => route('admin.gallery')]);
     }
