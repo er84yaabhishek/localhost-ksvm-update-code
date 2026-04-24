@@ -3,6 +3,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\forntend\HomeController;
 use App\Http\Controllers\Admin\PolicyController;
 use App\Http\Controllers\Admin\HomePageController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\BannerController;
 use Illuminate\Support\Facades\Route;
 
@@ -129,6 +130,20 @@ Route::prefix('admin')->middleware(['auth', 'verified', 'is_admin'])->group(func
         Route::get('/our-strength/{id}', [HomePageController::class, 'strengthShow'])->name('admin.homepage.strength.show');
         Route::post('/our-strength/{id}', [HomePageController::class, 'strengthUpdate'])->name('admin.homepage.strength.update');
         Route::delete('/our-strength/{id}', [HomePageController::class, 'strengthDestroy'])->name('admin.homepage.strength.destroy');
+    });
+
+    // ---- Site Settings Routes ----
+    Route::prefix('site-settings')->group(function () {
+        // General Settings (Header + Footer)
+        Route::get('/general', [SiteSettingController::class, 'index'])->name('admin.site.settings');
+        Route::post('/general', [SiteSettingController::class, 'update'])->name('admin.site.settings.update');
+
+        // Navigation Menu
+        Route::get('/nav-menu', [SiteSettingController::class, 'navIndex'])->name('admin.site.nav');
+        Route::post('/nav-menu', [SiteSettingController::class, 'navStore'])->name('admin.site.nav.store');
+        Route::get('/nav-menu/{id}', [SiteSettingController::class, 'navShow'])->name('admin.site.nav.show');
+        Route::post('/nav-menu/{id}', [SiteSettingController::class, 'navUpdate'])->name('admin.site.nav.update');
+        Route::delete('/nav-menu/{id}', [SiteSettingController::class, 'navDestroy'])->name('admin.site.nav.destroy');
     });
 
     // Banner Routes
