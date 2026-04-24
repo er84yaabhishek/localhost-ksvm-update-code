@@ -175,35 +175,32 @@ class HomeController extends Controller
 
     public function admissionstorepage(Request $request)
     {
-
         $request->validate([
-            'name' => 'required',
-            'pname' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'message' => 'required',
-            'classadmit' => 'required',
+            'name'       => 'required|string|max:255',
+            'pname'      => 'required|string|max:255',
+            'email'      => 'nullable|email|max:255',
+            'phone'      => 'required|string|max:15',
+            'message'    => 'nullable|string',
+            'classadmit' => 'required|string',
         ]);
 
         $contact = new AdmissionContact();
         $contact->student_name = $request->name;
-        $contact->parent_name = $request->pname;
-        $contact->phone = $request->phone;
-        $contact->email = $request->email;
-        $contact->message = $request->message;
-        $contact->subject = 'Admission Enquiry';
-        $contact->class = $request->classadmit;
+        $contact->parent_name  = $request->pname;
+        $contact->phone        = $request->phone;
+        $contact->email        = $request->email ?? '';
+        $contact->message      = $request->message ?? '';
+        $contact->subject      = 'Admission Enquiry';
+        $contact->class        = $request->classadmit;
         $contact->save();
 
         if ($contact) {
-            // Send email to admin
             $this->sendEmail($request);
-             return response()->json([
-                'success' => 'Your message has been sent successfully. We will contact you soon.'
-            ]);
         }
 
-        //return redirect()->back()->with('success', 'Your message has been sent successfully. We will contact you soon.');
+        return response()->json([
+            'success' => 'Your inquiry has been submitted successfully! We will contact you soon.'
+        ]);
     }
 
 
