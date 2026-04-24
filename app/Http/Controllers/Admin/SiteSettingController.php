@@ -47,7 +47,7 @@ class SiteSettingController extends Controller
         ];
 
         foreach ($keys as $key) {
-            SiteSetting::set($key, $request->input($key, ''));
+            SiteSetting::set($key, $request->input($key) ?? '');
         }
 
         // Handle logo upload
